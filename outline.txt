@@ -1,5 +1,67 @@
 Roadmap for Django Authentication & User Management System
 
+Implementation Plan (based on outlined roadmap)
+
+The following is an implementation for the described Django authentication system, assuming the base directory is structured as follows:
+
+/pqauth
+  ├── auth_system/           # Django project root
+  ├── users/                 # Django app for custom user model and APIs
+  ├── Dockerfile             # Docker build configuration
+  ├── docker-compose.yml     # Docker service definitions
+  ├── requirements.txt       # Python dependencies
+  └── outline.txt            # This roadmap and implementation guide
+
+Steps:
+
+1. Project Setup
+  - Create and activate virtual environment: `python -m venv venv && source venv/bin/activate`
+  - Install dependencies:
+    ```
+    pip install django djangorestframework psycopg2-binary \
+                djangorestframework-simplejwt django-allauth dj-rest-auth
+    ```
+  - Start Django project: `django-admin startproject auth_system .`
+  - Start app for user management: `python manage.py startapp users`
+  - Configure PostgreSQL in `auth_system/settings.py` and add apps to `INSTALLED_APPS`.
+
+2. Custom User Model
+  - In `users/models.py`, create a custom user extending `AbstractBaseUser`.
+  - Add `AUTH_USER_MODEL = 'users.CustomUser'` in settings.
+  - Run `makemigrations` and `migrate`.
+
+3. JWT Auth
+  - Configure `rest_framework` in settings with JWT authentication class.
+  - Add token endpoints in `auth_system/urls.py`.
+
+4. OAuth2 Auth
+  - Configure Google/GitHub logins using `django-allauth` and `dj-rest-auth`.
+  - Setup credentials in `auth_system/settings.py`.
+
+5. RBAC
+  - Define roles and groups in Django admin.
+  - Use DRF permissions and decorators to limit access in views.
+
+6. API Endpoints
+  - Create views and serializers in `users/` for:
+    - Register, Login (JWT), Password reset, Profile, Admin management.
+  - Use DRF ViewSets and Routers in `users/urls.py`.
+
+7. Testing & Security
+  - Write test cases in `users/tests.py`.
+  - Install and configure `django-cors-headers`.
+  - Enable HTTPS, CSRF, and rate-limiting settings.
+
+8. Dockerization
+  - Write `Dockerfile` and `docker-compose.yml` to include Django and PostgreSQL.
+  - Include `.env` for secrets and database credentials.
+
+9. Deployment
+  - Set up Nginx config and reverse proxy in Docker.
+  - Push to GitHub and optionally deploy on AWS/GCP.
+
+This plan aligns with the directory structure and can be executed step-by-step.
+
 1. Project Setup
 	•	Install dependencies: Django, Django REST Framework (DRF), PostgreSQL, djangorestframework-simplejwt, django-allauth, dj-rest-auth, psycopg2, Docker.
 	•	Set up a virtual environment: python -m venv venv and activate it.
